@@ -1,0 +1,72 @@
+int count=1;
+byte daybit[9]={1,2,4,8,16,32,64,128};
+byte dataPin = 2;
+byte clockPin = 3;
+byte latchPin = 4;
+float dientro;
+float dienap;
+void setup() {
+for(int i=2;i<=5; i++){
+pinMode(i, OUTPUT);
+}
+analogReference(EXTERNAL);
+Serial.begin(9600);
+}
+void loop() {
+while(count==1){
+write();
+if(analogRead(A0)<=513){
+dienap = ((analogRead(A0)*5.00)/1023.00);
+dientro = ((100.00*dienap)/(5.00-dienap));
+Serial.println(dientro);
+}
+else{
+count=2;
+}}
+while(count==2){
+write();
+if((analogRead(A0)<=513)&&(analogRead(A0)>=93)){
+dienap = ((analogRead(A0)*5.00)/1023.00);
+dientro = ((1000.00*dienap)/(5.00-dienap));
+Serial.println(dientro);
+}
+else{
+  if(analogRead(A0)<93){count=1;}
+  else{
+count=3;}
+}}
+while(count==3){
+write();
+if((analogRead(A0)<=513)&&(analogRead(A0)>=93)){
+dienap = ((analogRead(A0)*5.00)/1023.00);
+dientro = ((10000.00*dienap)/(5.00-dienap));
+Serial.println(dientro);
+}
+else{
+  if(analogRead(A0)<93){count=2;}
+  else{
+count=4;}}
+}
+while(count==4){
+write();
+if((analogRead(A0)<=513)&&(analogRead(A0)>=93)){
+dienap = ((analogRead(A0)*5.00)/1023.00);
+dientro = ((100000.00*dienap)/(5.00-dienap));
+Serial.println(dientro);
+}
+else{
+  if(analogRead(A0)<93){count=3;}
+else{
+count=5;}}
+}
+while(count==5){
+Serial.println("R is too high");
+count=4;
+}
+}
+void write(){
+byte x= count-1;
+digitalWrite(latchPin, LOW);
+shiftOut(dataPin, clockPin,MSBFIRST, 255-daybit[x]);
+digitalWrite(latchPin, HIGH);
+}
