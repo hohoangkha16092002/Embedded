@@ -1,0 +1,127 @@
+#include <LiquidCrystal.h>
+ 
+//Khởi tạo với các chân
+LiquidCrystal lcd(12, 11, 5, 4, 3, 2);
+ 
+void setup() {
+  //Thông báo đây là LCD 1602
+  lcd.begin(16, 2);
+  //In ra màn hình lcd dòng chữ HO HOANG KHA
+  lcd.print("  HO HOANG KHA");
+}
+ 
+void loop() {
+  //Xuống dòng thứ 2
+  lcd.setCursor(0, 1); 
+  //In ra màn hình lcd dòng chữ 62130808
+  lcd.print("    62130808");
+}
+
+/////////////////////////////////////////////
+1. Hiệu ứng hiển thị chữ nhấp nháy
+
+void setup() {
+  lcd.begin(16, 2);
+  lcd.print("HELLO");
+  lcd.setCursor(0, 1);
+  lcd.print("ARDUINO");
+}
+void loop() {
+lcd.noDisplay();//Tắt màn hình và không làm mất các ký tự trên LCD
+delay(700);//chờ 0.7 giây
+lcd.display();//Hiển thị màn hình trở lại
+delay(700);//chờ 0.7 giây
+}
+
+/////////////////////////////////////////////
+2. Hiệu ứng tự động cuốn chữ
+
+void setup() {
+  lcd.begin(16, 2);
+}
+void loop() {
+  //Đưa con trỏ về vị trí (0,0)
+  lcd.setCursor(0, 0);
+  //In ra giá trị từ 0 - 9
+  for (int thisChar = 0; thisChar < 10; thisChar++) {
+    lcd.print(thisChar);
+    delay(500);
+  }
+  //Đặt con trỏ tới vị trí (16,1)
+  lcd.setCursor(16, 1);
+  //Cấu hình hiển thị tự cuộn chữ
+  lcd.autoscroll();
+  //IN giá trị từ 0 - 9
+  for (int thisChar = 0; thisChar < 10; thisChar++) {
+    lcd.print(thisChar);
+    delay(500);
+  }
+  //Tắt chức năng tự động cuộn
+  lcd.noAutoscroll();
+  //Xóa màn hình cho vòng lặp kế tiếp
+  lcd.clear();
+}
+
+/////////////////////////////////////////////
+3. Hiệu ứng chớp tắt con trỏ
+
+void setup() {
+  lcd.begin(16, 2);
+  //In thông báo ra LCD
+  lcd.print("hello, world!");
+}
+void loop() {
+  //Tắt blink con trỏ
+  lcd.noBlink();
+  delay(3000);
+  //Bật blink con trỏ
+  lcd.blink();
+  delay(3000);
+}
+
+/////////////////////////////////////////////
+4. Hiệu ứng chớp tắt con trỏ dạng dấu gạch
+
+void setup() {
+  lcd.begin(16, 2);
+  //In thông báo trên LCD
+  lcd.print("hello, world!");
+}
+void loop() {
+  //Tắt con trỏ
+  lcd.noCursor();
+  delay(500);
+  //Hiện con trỏ
+  lcd.cursor();
+  delay(500);
+}
+
+/////////////////////////////////////////////
+5. Hiệu ứng chạy chữ từ trái sang phải và ngược lại
+
+void setup() {
+  lcd.begin(16, 2);
+  lcd.print("HELLO ARDUINO!");
+  delay(1000);
+}
+void loop() {
+  //Cuộn 13 vị trí sang trái
+  for (int positionCounter = 0; positionCounter < 13; positionCounter++) {
+    //Cuộn 1 vị trí sang trái
+    lcd.scrollDisplayLeft();
+    delay(150);
+  }
+  //Cuộn 29 vị trí sang phải
+  for (int positionCounter = 0; positionCounter < 29; positionCounter++) {
+    //Cuộn 1 vị trí sang phải
+    lcd.scrollDisplayRight();
+    delay(150);
+  }
+  //Cuộn 16 vị trí sang trái
+  for (int positionCounter = 0; positionCounter < 16; positionCounter++) {
+    // Cuộn 1 vị trí sang trái
+    lcd.scrollDisplayLeft();
+    delay(150);
+  }
+  delay(1000);
+}
